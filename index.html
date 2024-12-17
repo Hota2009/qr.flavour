@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>QR Text Generator</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      margin-top: 50px;
+      background-color: #f8f9fa;
+    }
+    h1 {
+      color: #333;
+    }
+    input {
+      padding: 10px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      width: 250px;
+    }
+    p {
+      margin-top: 20px;
+      font-size: 18px;
+      color: #444;
+    }
+    img {
+      margin-top: 20px;
+      width: 150px;
+      height: 150px;
+    }
+    a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 15px;
+      background-color: #007BFF;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+    a:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <h1>QR Text Generator</h1>
+  <input 
+    type="text" 
+    id="nameInput" 
+    placeholder="أدخل اسمك هنا" 
+    oninput="generateQRText()" 
+  />
+  <p id="resultText">FLAVOUR_</p>
+  <img id="qrCode" src="" alt="QR Code">
+  <a id="downloadLink" href="#" download="qrcode.png">Download QR Code</a><br>
+
+  <script>
+    function generateQRText() {
+      const input = document.getElementById('nameInput').value;
+      const resultText = document.getElementById('resultText');
+      const qrImage = document.getElementById('qrCode');
+      const downloadLink = document.getElementById('downloadLink');
+      
+      if (input.trim() === '') {
+        resultText.textContent = 'FLAVOUR_';
+        qrImage.src = '';
+        downloadLink.href = '#';
+        return;
+      }
+
+      // يقسم النص لكلمتين
+      const words = input.trim().split(' ');
+      let firstInitial = words[0] ? words[0][0].toUpperCase() : '';
+      let secondInitial = words[1] ? words[1][0].toUpperCase() : '';
+
+      // يولد النص وال QR
+      const result = `FLAVOUR_${firstInitial}.${secondInitial}`;
+      resultText.textContent = result;
+
+      const qrData = encodeURIComponent(result);
+      const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${qrData}`;
+      qrImage.src = qrUrl;
+      downloadLink.href = qrUrl;
+    }
+  </script>
+</body>
+</html>
